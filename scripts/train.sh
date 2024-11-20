@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=$2 python main.py --type train --config $1 --seed $3
