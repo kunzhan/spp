@@ -44,9 +44,9 @@ where scaler1 represents $\lambda_1$ in the paper, and scaler2 represents $w_1$ 
 
 If you want to save the results of the presampling for direct use in subsequent samples, replace the solver.py (in the form of a copy) with the content of the solver_pre_data.py. Then navigate to the get_pc_sampler function in the solver.py and modify the path of the following code to the path you want:
 ```py
-torch.save(x, "./x_pre_qm9.pth")
-torch.save(adj, "./adj_pre_qm9.pth")
-torch.save(flags, "./flags_pre_qm9.pth")
+torch.save(x, "./pre_data/x_pre_qm9.pth")
+torch.save(adj, "./pre_data/adj_pre_qm9.pth")
+torch.save(flags, "./pre_data/flags_pre_qm9.pth")
 ```
 Then, please run:
 ```sh
@@ -54,8 +54,8 @@ CUDA_VISIBLE_DEVICES=${gpu_ids} python main.py --type sample --config sample_qm9
 ```
 Finally, replace the solver.py with solver_with_pre.py (in the form of a copy) and modify the path in the function get_pc_sampler to save the presampled results for you:
 ```py
-x = torch.load("./x_pre_qm9.pth")
-adj = torch.load("./adj_pre_qm9.pth")
-flags = torch.load("./flags_pre_qm9.pth")
+x = torch.load("./pre_data/x_pre_qm9.pth")
+adj = torch.load("./pre_data/adj_pre_qm9.pth")
+flags = torch.load("./pre_data/flags_pre_qm9.pth")
 ```
 Congratulations, you can start sampling from this new starting point for subsequent sampling, which will greatly reduce the sampling time, and this is also the version of the results we report in the paper. In particular, you can also reduce the diff_steps in the solver.py (the default value for this parameter is 1000), such as 70, and you will be surprised to find that when the starting deviation is solved, we can generate still high-quality samples in a very short time step.
